@@ -23,6 +23,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         testbirdNode.physicsBody!.applyImpulse(CGVector(dx:0,dy:250)) //250 потому что если меньше то играть невозможно
+        for touch in touches { //ребутаемся
+             let location = touch.location(in: self)
+             let touchedNode = atPoint(location)
+             if touchedNode.name == "gameover" {
+                if let view = self.view as! SKView? {
+                    // Load the SKScene from 'GameScene.sks'
+                    if let scene = SKScene(fileNamed: "GameScene") {
+                        // Set the scale mode to scale to fit the window
+                        scene.scaleMode = .aspectFill
+                        
+                        // Present the scene
+                        view.presentScene(scene)
+                    }
+                    
+                    view.ignoresSiblingOrder = true
+                }
+             }
+        }
     }
     func stop(){
         backgnode.removeAllActions()
@@ -33,3 +51,4 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         stop()
     }
 }
+
